@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Form } from "react-router";
+import { useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
-import type { Route } from "./+types/login";
 
 export function meta() {
     return [
@@ -12,7 +10,7 @@ export function meta() {
 
 export default function Login() {
     const now = new Date();
-    const [time, setTime] = useState<string>(`${now.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })} ${now.toLocaleTimeString('en-PH', { timeStyle: 'short' })}`);
+    const [time, setTime] = useState(`${now.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })} ${now.toLocaleTimeString('en-PH', { timeStyle: 'short' })}`);
 
     useEffect(() => {
         setInterval(() => {
