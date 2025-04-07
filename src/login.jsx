@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
+import BootSequence from "./components/BootSequence";
 
 export function meta() {
     return [
@@ -11,6 +12,23 @@ export function meta() {
 export default function Login() {
     const now = new Date();
     const [time, setTime] = useState(`${now.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })} ${now.toLocaleTimeString('en-PH', { timeStyle: 'short' })}`);
+    const [showLogin, setShowLogin] = useState(false);
+    
+    const bootLines = [
+        "Starting system boot process...",
+        "[  OK  ] Started Journal Service",
+        "[  OK  ] Mounted FUSE Control File System",
+        "[  OK  ] Listening on D-Bus System Message Bus Socket",
+        "[  OK  ] Reached target System Initialization",
+        "[  OK  ] Started CUPS Scheduler",
+        "[  OK  ] Reached target Network",
+        "Starting Network Manager...",
+        "[  OK  ] Started Network Manager",
+        "Starting User Manager for UID 1000...",
+        "[  OK  ] Started User Manager for UID 1000",
+        "Loading desktop environment...",
+        "[  OK  ] System startup complete"
+    ];
 
     useEffect(() => {
         setInterval(() => {
@@ -18,6 +36,21 @@ export default function Login() {
             setTime(`${now.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })} ${now.toLocaleTimeString('en-PH', { timeStyle: 'short' })}`);
         }, 1000);
     }, []);
+
+    // Only show login screen after boot sequence completes
+    if (!showLogin) {
+        return (
+            <main className="bg-[#000000] h-screen w-screen flex overflow-hidden flex-col p-4">
+                <div className="grow flex justify-center items-center">
+                    <BootSequence 
+                        lines={bootLines} 
+                        typingSpeed={20} 
+                        onComplete={() => setTimeout(() => setShowLogin(true), 500)} 
+                    />
+                </div>
+            </main>
+        );
+    }
 
     return (
         <main className="bg-[#282828] h-screen w-screen flex overflow-hidden flex-col p-4">
